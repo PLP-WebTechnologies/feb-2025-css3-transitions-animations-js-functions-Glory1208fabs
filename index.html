@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CSS Transitions and Animations</title>
+<style>
+  /* Style for the button */
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+
+  /* Style for the animated box */
+  .box {
+    width: 100px;
+    height: 100px;
+    background-color: green;
+    margin: 20px 0;
+    /* Transition for smooth background color change */
+    transition: background-color 0.5s ease, transform 0.5s ease;
+  }
+
+  /* Class added to trigger the animation */
+  .animate {
+    background-color: orange;
+    transform: rotate(20deg) scale(1.2);
+  }
+
+  /* Optional: Keyframes for additional animation effects */
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  /* Apply bounce animation when class is active */
+  .bounce {
+    animation: bounce 1s;
+  }
+</style>
+</head>
+<body>
+
+<button id="toggleAnimation">Toggle Animation</button>
+<div class="box" id="animatedBox"></div>
+
+<script>
+const button = document.getElementById('toggleAnimation');
+const box = document.getElementById('animatedBox');
+
+// Load user preference from localStorage
+const isAnimated = localStorage.getItem('isAnimated') === 'true';
+
+if (isAnimated) {
+  box.classList.add('animate', 'bounce');
+}
+
+// Toggle animation on button click
+button.addEventListener('click', () => {
+  const isActive = box.classList.toggle('animate');
+  // Add bounce effect briefly
+  box.classList.remove('bounce');
+  void box.offsetWidth; // trigger reflow
+  box.classList.add('bounce');
+
+  // Save user preference
+  localStorage.setItem('isAnimated', isActive);
+});
+</script>
+
+</body>
+</html>
